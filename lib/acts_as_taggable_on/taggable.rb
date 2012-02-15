@@ -39,10 +39,12 @@ module ActsAsTaggableOn
         tag = tag_class_name.constantize
         tagging = tagging_class_name.constantize
 
-        write_inheritable_attribute(:tag_types, tag_types)
-        write_inheritable_attribute(:acts_as_taggable_on_tag_model, tag)
-        write_inheritable_attribute(:acts_as_taggable_on_tagging_model, tagging)
-        class_inheritable_reader(:tag_types, :acts_as_taggable_on_tagging_model, :acts_as_taggable_on_tag_model)
+        class_attribute(:tag_types)
+        class_attribute(:acts_as_taggable_on_tagging_model)
+        class_attribute(:acts_as_taggable_on_tag_model)
+        self.tag_types = tag_types
+        self.acts_as_taggable_on_tag_model = tag
+        self.acts_as_taggable_on_tagging_model = tagging
 
         class_eval do
           has_many :taggings, :as => :taggable, :dependent => :destroy, :include => :tag, :class_name => tagging_class_name
